@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,21 +18,26 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_order")
 public class Order implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	// também do import Jackson e trabalha o formato de data e hora
+	// isso implica no formato que será exibido ao consumir os dados
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	
-	//a notação @ManyToOne indica que temos um relacionamento de muitos para um entre ordem e cliente
-	//a notação @JoinColumn indica a chave estrangeira 
+
+	// a notação @ManyToOne indica que temos um relacionamento de muitos para um
+	// entre ordem e cliente
+	// a notação @JoinColumn indica a chave estrangeira
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
-	
-	public Order() {		
+
+	public Order() {
 	}
 
 	public Order(Long id, Instant moment, User client) {
@@ -40,7 +47,6 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -82,9 +88,4 @@ public class Order implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	
-	
-	
-	
-	
 }

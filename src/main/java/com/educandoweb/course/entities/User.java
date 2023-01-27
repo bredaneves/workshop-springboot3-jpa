@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +31,10 @@ public class User implements Serializable {
 	
 	//a notação abaixo indica que temos uma relação de um para muitos entre clinete e ordem
 	//também indicamos que o relacionamento está mapeado pelo objeto cliente da outra entidade
+	//a notação @JsonIgnore é para que não haja looping entre cliente e ordens e...
+	//a serialização do Json no consumo (aninhamento) ocorrerá no outro objeto e...
+	//essa serialização ocorre devido a configuração "spring.jpa.open-in-view=true" do recurso application.properties
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
