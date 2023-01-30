@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.educandoweb.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ public class OrderItem implements Serializable {
 	//essa entidade abaixo faz o relacionamento entre tabelas com campos extras
 	//a notação desse tipo de ID é diferente
 	@EmbeddedId
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -29,7 +30,7 @@ public class OrderItem implements Serializable {
 
 	//o construtor, nesse caso, não deve conter o id, pois será atualizado em outro momento...
 	//além disso, preciso editar manualmente para incluir os campos de objetos (order e product)
-	public OrderItem(Order order, Product product, OrderItemPK id, Integer quantity, Double price) {
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 		super();		
 		id.setOrder(order);
 		id.setProduct(product);
@@ -40,6 +41,8 @@ public class OrderItem implements Serializable {
 	//os getters and setters também não devem trabalhar com o id nesse momento...
 	//também será preciso criar manulamente para order e product
 	
+	//como não temos uma variável simples de id, então o ignore deve estar aqui
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
