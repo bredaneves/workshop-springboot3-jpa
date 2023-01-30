@@ -5,12 +5,14 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_category")
@@ -24,7 +26,12 @@ public class Category implements Serializable {
 	private String name;
 
 	// a notação @Transient impede a interpretação do trecho abaixo
-	@Transient
+	//@Transient
+	//a notação abaixo indica quem originou o mapeamento (indicado pelo Set) e...
+	//a notação JsonIgnore serve para não entrarmos em loop bidirecional ao montar os ...
+	//aninhamentos de Json, somente a outra entidade fará isso
+	@JsonIgnore
+	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
 
 	public Category() {
