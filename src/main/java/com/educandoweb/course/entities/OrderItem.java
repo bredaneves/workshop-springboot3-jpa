@@ -76,6 +76,12 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
+	//os métodos abaixo não fazem parte do modelo relacional, mas sim...
+	//da lógica de negócio e já podem ser implementadas (total do item)
+	public Double getSubTotal() {
+		return price * quantity;
+	}	
+	
 	//o hashcode and equals, por outro lado, deve usar somente o id
 	@Override
 	public int hashCode() {

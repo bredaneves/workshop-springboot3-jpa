@@ -3,6 +3,8 @@ package com.educandoweb.course.entities;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,8 @@ public class Payment {
 	//as notações abaixo são para criar um relacionamento um para um e...
 	//@MapsId deve ser feito na classe dependente; no caso, ....
 	//o pagamento pode, ou não, existir para a ordem
+	//não desejamos aninhamento de tags na consulta desse elemento, portando JsonIgnore
+	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Order order;
