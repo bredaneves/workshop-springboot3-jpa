@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
 //@Service registra classe como serviço do spring
 @Service
@@ -23,7 +24,10 @@ public class UserService {
 	
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		//ao invés de usar o retorno simples abaixo que cai nos erros padrões, usaremos ...
+		//outra chamada para cair em nosso erro personalizado
+		//return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	//salvar novo usuário no banco
